@@ -1,3 +1,4 @@
+
 WITH CTE AS(
     SELECT 
     TO_TIMESTAMP(STARTED_AT) AS DATE_TIMESTAMP,
@@ -6,15 +7,14 @@ WITH CTE AS(
 
     CASE WHEN DAYNAME(TO_TIMESTAMP(START_DATE)) IN ('SAT', 'SUN')
     THEN 'WEEKEND'
-    ELSE 'WEEKDAY'
+    ELSE 'BUSINESS DAY'
     end AS START_DAY,
 
     {{get_season('STARTED_AT')}} AS START_SEASON
 
     FROM 
     {{ source('demo', 'bike') }}
-    WHERE STARTED_AT != 'started_at'
-    LIMIT 3
+    WHERE STARTED_AT != 'started_at'  
 )
 
 SELECT * FROM CTE
